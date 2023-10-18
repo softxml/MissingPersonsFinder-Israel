@@ -97,10 +97,20 @@ Your `credentials.json` file should look something like this (with your own clie
    git clone https://github.com/softxml/MissingPersonsFinder-Israel.git
 
 
+**Development Environment**
+-----------------------
+
+This project was developed using [WampServer](https://www.wampserver.com/en/), a Windows-based web development environment that includes Apache, MySQL, and PHP. Make sure you have WampServer installed to run this project locally.
+
+You can download WampServer from [here](https://www.wampserver.com/en/).
+
+Once installed, configure your project to run on the WampServer environment for local development.
+
+
 **Project Folder Structure**
 ------------------------
 
-- Root
+- C:\wamp64\www\gmail
   - saveData
     - socialid or fullName
       - all images of missing person
