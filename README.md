@@ -17,11 +17,11 @@ Given the urgency of the situation, speed was paramount. The focus was on functi
 
 I want to emphasize that this project was undertaken with the intention of offering immediate help, and as such, coding style and other conventional considerations took a backseat to functionality and accuracy.
 
-Your understanding of this context is appreciated as we work together to address the critical issue of locating missing persons.
+**Your understanding of this context is appreciated as we work together to address the critical issue of locating missing persons.
 
 If you encounter any issues or have suggestions for improvements, please feel free to contribute. Your support can make a significant difference in the success of this project.
 
-Thank you for your understanding and commitment to the cause.
+Thank you for your understanding and commitment to the cause.**
 
 ## Project Overview
 
