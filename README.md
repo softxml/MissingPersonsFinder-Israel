@@ -21,6 +21,8 @@ I want to emphasize that this project was undertaken with the intention of offer
 
 ## Project Overview
 
+- **The project utilizes a Named Entity Recognition (NER) model and a Hebrew language model** to perform various tasks related to text analysis and understanding in Hebrew. These models are instrumental in extracting and identifying named entities, entities' relationships, and other linguistic patterns in Hebrew text data.
+
 - **Functionality**: The application can extract essential information, such as social IDs or full names, from Gmail messages. It then creates local folders named after these parameters and uploads images of the individuals to their respective folders. Additionally, it can identify attached zip files, extract their contents, and upload them to the corresponding person's folder.
 
 - **Objective**: The primary objective of this project is to assist organizations like "Needarim" (in Hebrew) or "Missing People" https://needarim.org.il/ in their efforts to locate missing individuals and provide support to their families during these challenging times.
@@ -111,6 +113,11 @@ Once installed, configure your project to run on the WampServer environment for 
 ------------------------
 
 - C:\wamp64\www\gmail
+  gmail.php 
+  findName.py
+  findSocialId.py
+  composer.json
+  credentials.json
   - saveData
     - socialid or fullName
       - all images of missing person
