@@ -9,6 +9,20 @@ The Missing Persons Search Application is a volunteer project aimed at helping l
 
 An ongoing armed conflict between Palestinian militant groups led by Hamas and Israel and its defense forces began on 7 October 2023, with a coordinated surprise offensive on Israel. The terrorist attack began in the morning with a barrage of at least 6,000 rockets launched from the Hamas-controlled Gaza Strip against Israel, resulting in casualties and hostages.
 
+## How the Project Started
+
+The inception of this project was born out of a critical need during challenging times. As a volunteer programmer, I was approached to develop this application urgently. The primary objective was to create a tool that could swiftly and effectively assist in locating missing individuals, especially during ongoing crises.
+
+Given the urgency of the situation, speed was paramount. The focus was on functionality and reliability, with the understanding that there might be imperfections and bugs along the way. As a result, the emphasis was on delivering a solution that works correctly, even if it meant sacrificing code perfection.
+
+I want to emphasize that this project was undertaken with the intention of offering immediate help, and as such, coding style and other conventional considerations took a backseat to functionality and accuracy.
+
+Your understanding of this context is appreciated as we work together to address the critical issue of locating missing persons.
+
+If you encounter any issues or have suggestions for improvements, please feel free to contribute. Your support can make a significant difference in the success of this project.
+
+Thank you for your understanding and commitment to the cause.
+
 ## Project Overview
 
 - **Functionality**: The application can extract essential information, such as social IDs or full names, from Gmail messages. It then creates local folders named after these parameters and uploads images of the individuals to their respective folders. Additionally, it can identify attached zip files, extract their contents, and upload them to the corresponding person's folder.
