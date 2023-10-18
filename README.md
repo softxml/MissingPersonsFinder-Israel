@@ -113,11 +113,11 @@ Once installed, configure your project to run on the WampServer environment for 
 ------------------------
 
 - C:\wamp64\www\gmail
-  gmail.php 
-  findName.py
-  findSocialId.py
-  composer.json
-  credentials.json
+  - gmail.php 
+  - findName.py
+  - findSocialId.py
+  - composer.json
+  - credentials.json
   - saveData
     - socialid or fullName
       - all images of missing person
