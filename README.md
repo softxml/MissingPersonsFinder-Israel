@@ -109,10 +109,12 @@ Follow these steps to create and activate the project's virtual environment:
 
    ```bash
    python -m venv venv
+   ```
 
 3. Activate the virtual environment:
    ```bash
    .env\Scriptsctivate
+   ```
 
 
 10. Installing Composer Dependencies
