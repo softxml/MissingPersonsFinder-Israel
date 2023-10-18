@@ -90,7 +90,19 @@ Your `credentials.json` file should look something like this (with your own clie
   }
 }
 ```
+10. Installing Composer Dependencies
 
+This project relies on Composer to manage its PHP dependencies. Composer makes it easy to fetch and install the required packages, ensuring that your project runs smoothly.
+
+**Navigate to the Project Directory**:
+Open your command-line interface (CLI) and navigate to the root directory of this project. You should be in the same directory as the composer.json file.
+
+**Run Composer Install**:
+Execute the following command to fetch and install all Composer dependencies:
+
+**composer install**
+
+This command will read the composer.json file, resolve dependencies, and download the required packages into the vendor directory within your project.
 
 2. **Clone This Repository**:
 
