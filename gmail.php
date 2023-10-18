@@ -5,7 +5,6 @@ mb_http_output('UTF-8');
 set_time_limit(3600);
 putenv("PATH=C:\wamp64\www\gmail\venv\Scripts;" . getenv("PATH"));
 
-
 require 'vendor/autoload.php';
 require 'simple_html_dom.php';
 
@@ -14,7 +13,6 @@ session_start();
 $dictionary = [];
 $imagesInBody = [];
 
-
 $client = new Google_Client();
 $client->setAuthConfig('credentials.json');
 $client->addScope(Google_Service_Gmail::GMAIL_READONLY);
@@ -22,8 +20,6 @@ $client->setRedirectUri('http://localhost:8080/gmail/gmail.php');
 $client->setHttpClient(new \GuzzleHttp\Client([
     'verify' => false,
 ]));
-
-
 
 try {
     // Check if an access token already exists in the session and if it's expired
@@ -83,20 +79,17 @@ try {
     }
 }
 
-
 $service = new Google_Service_Gmail($client);
 
 function getBodyData($payload) {
-
-        $bodyData = '';
-        if ($payload->getBody() && $payload->getBody()->size > 0) {
-            $rawData = $payload->getBody()->data;
-            $sanitizedData = strtr($rawData, '-_', '+/');
-            $bodyData .= base64_decode($sanitizedData);
-        }
+    $bodyData = '';
+    if ($payload->getBody() && $payload->getBody()->size > 0) {
+        $rawData = $payload->getBody()->data;
+        $sanitizedData = strtr($rawData, '-_', '+/');
+        $bodyData .= base64_decode($sanitizedData);
+    }
     
     foreach ($payload->getParts() as $part) {
-      
         $bodyData .= getBodyData($part);
     }
  
@@ -109,10 +102,8 @@ function getAttachments($message, $service) {
     $parts = $message->getPayload()->getParts();
     foreach ($parts as $part) {
         if (!empty($part->getFilename())) {
-
             $attachmentId = $part->getBody()->attachmentId;
             $attachmentData = $service->users_messages_attachments->get('me', $message->getId(), $attachmentId);
-            // $data = strtr($attachmentData['data'], array('-' => '+', '_' => '/'));
             $data = base64_decode(strtr($attachmentData['data'], '-_', '+/'));
             $attachments[] = [
                 'filename' => $part->getFilename(),
@@ -151,37 +142,25 @@ function replaceCidImages($htmlContent, $attachments) {
         $cid = str_replace('@', '', $attachment['filename']);
         $data = $attachment['data'];
         $mimeType = $attachment['mimeType'];
-        
         $base64Data = base64_encode($data);
         $dataUrl = "data:$mimeType;base64,$base64Data";
-
         $htmlContent = str_replace("cid:$cid", $dataUrl, $htmlContent);
     }
     return $htmlContent;
 }
 
 function removeRepetitiveNumbers($input) {
-    // Split the input string by hyphens
     $parts = explode('-', $input);
-    
-    // Create an array to store unique numbers
     $uniqueNumbers = [];
 
-    // Iterate through the parts
     foreach ($parts as $part) {
-        // Remove leading and trailing spaces from the part (optional)
         $cleanedPart = trim($part);
-
-        // Check if the cleaned part is not in the unique numbers array
         if (!in_array($cleanedPart, $uniqueNumbers)) {
-            // Add the cleaned part to the unique numbers array
             $uniqueNumbers[] = $cleanedPart;
         }
     }
 
-    // Join the unique numbers with hyphens to create the output string
     $output = implode('-', $uniqueNumbers);
-
     return $output;
 }
 
@@ -216,287 +195,163 @@ function findHtmlContent($payload) {
     return null;
 }
 
-
-
-// If we have a valid access token at this point, proceed to access Gmail
-
 $params = [
     'labelIds' => ['INBOX'],
-    // 'orderBy' => 'internalDate',
     'maxResults' => 7
 ];
 $results = $service->users_messages->listUsersMessages('me', $params);
 $messages = $results->getMessages();
 
-
 if (!empty($messages)) {
-  
-$counter = 0;
-foreach ($messages as $message) {
-    $messageId = $message->getId();
-    $fullMessage = $service->users_messages->get('me', $messageId);
-
-    $payload = $fullMessage->getPayload();
-    if (!$payload) {
-        continue; // Skip this message if there's no payload
-    }
-
-    // Get Subject
-    $headers = $payload->getHeaders();
-    $subjectHeader = array_filter($headers, function($header) {
-        return $header->getName() == 'Subject';
-    });
-    $subject = $subjectHeader ? current($subjectHeader)->getValue() : null;
-    
-    //echo "Subject: $socialID<br>";
-    
-    // Get Body
-    $bodyData = getBodyData($payload);
-    
-    
-
-    $escaped_subject = escapeshellarg($subject);
-    //$escaped_body = escapeshellarg($bodyData);
-    $finalFileName = ""; 
-
-    $socialIDInSubject = shell_exec("python findSocialId.py $escaped_subject");
-    $tempFile = tempnam(sys_get_temp_dir(), 'tempfile');
-    //echo $tempFile . "<br>";
-    //echo $socialIDInSubject . "<br>";
-    file_put_contents($tempFile, $bodyData);
-    if(!$socialIDInSubject){
-        
-        $command = "python findSocialId.py \"$tempFile\"";
-        $socialIDInBody = shell_exec($command);
-
-        //echo "body " . $socialIDInBody . "<br>";
-        if(!$socialIDInBody){
-            //echo "id not found, will look after name" . "<br>";
-            //echo $escaped_subject;
-            $nameInSubject = shell_exec("python findName.py $escaped_subject");
-            if (strpos($nameInSubject, "None") !== false) {
-                $command = "python findName.py \"$tempFile\"";
-                $nameInBody = shell_exec($command);
-                if (strpos($nameInBody, "None") !== false) {
-                    continue;
-                }
-                else{
-                    $socialIdCompleted = $nameInBody;
-                    //echo "in body " . $nameInBody;
-                }
-                
-            }
-            else{
-                $socialIdCompleted = $nameInSubject;
-                //echo $nameInSubject;
-            }
-            
-            
-            
+    $counter = 0;
+    foreach ($messages as $message) {
+        $messageId = $message->getId();
+        $fullMessage = $service->users_messages->get('me', $messageId);
+        $payload = $fullMessage->getPayload();
+        if (!$payload) {
+            continue; // Skip this message if there's no payload
         }
-        else{
-            $unique_socialIDInBody = removeRepetitiveNumbers($socialIDInBody);
-            
-            $socialIdCompleted = $unique_socialIDInBody;
-            //echo $unique_socialIDInBody . "<br>";
-        }
+
+        // Get Subject
+        $headers = $payload->getHeaders();
+        $subjectHeader = array_filter($headers, function($header) {
+            return $header->getName() == 'Subject';
+        });
+        $subject = $subjectHeader ? current($subjectHeader)->getValue() : null;
+
+        $bodyData = getBodyData($payload);
+
+        $escaped_subject = escapeshellarg($subject);
+        $finalFileName = "";
         
-    }
-    else{
-        $unique_socialIDInSubject = removeRepetitiveNumbers($socialIDInSubject);
-        $socialIdCompleted = $unique_socialIDInSubject;
-        //echo $unique_socialIDInSubject . "<br>";
-
-    }
-    
-    echo $finalFileName;
-    if($socialIdCompleted){
-        $dictionary[$messageId] = [
-            'id' => mb_convert_encoding($socialIdCompleted, 'UTF-8', 'auto'),
-            'images' => []
-        ];
-    }
-    else{
-        continue;
-    }
-    
-    
-    
-    //echo "Body: $bodyData<br>";
-
-    // Get Attachments
-    $attachments = getAttachments($fullMessage, $service);
-    $bodyWithImages = replaceCidImages($bodyData, $attachments);
-    //echo "Body: $bodyWithImages<br>";
-    $images = [];
-    $zips = [];
-    $filesToDelete = [];
-    foreach ($attachments as $attachment) {
-        $filename = $attachment['filename'];
-        echo $filename;
-        $data = $attachment['data'];
-        $mimeType = $attachment['mimeType'];
-        
-        if($mimeType=="image/jpeg" ||  $mimeType=="image/png"){
-            // echo $mimeType;
-            $dictionary[$messageId]['zipData'] = "";
-            $dataDecode = base64_decode($data);
-            // Convert data to Data URL
-            $base64Data = base64_encode($data);
-            $dataUrl = "data:$mimeType;base64,$base64Data";
-            $images[] = $data;
-        }
-        if($mimeType==="application/zip" || $mimeType==="application/x-zip-compressed"){
-            
-        
-        if ($filename !== null) {
-            $filePath = $messageId.'_' . str_replace(' ', '', $filename).'.zip';
-            if ($data !== false) {
-                // Save the decoded data to a file
-                $zips[] = $filePath;
-                
-                file_put_contents($filePath, $data);
-                $filesToDelete[] = $filePath;
-                //echo "Zip file saved successfully.";
-            } else {
-                echo "Failed to decode base64 data.";
-            }
-            
-         
-                
-            
-            //echo $tempFile;
-            
-            //unlink($tempFile);
-            // file_put_contents($filename, $attachmentData);
-            // echo "Attachment file name: $filename\n";
-            // echo "Attachment ID: $attachmentId\n";
-            // echo "Attachment Data: $attachmentData\n";
-            
-        }
-        }
-        
-
-        // Display image using Data URL
-        //echo "<img src='$dataUrl' alt='$filename' /><br>";
-        
-        //echo "Attachment: " . $attachment['filename'] . "-------" . $attachment['data'] . "<br>";
-        // You can save or handle the attachment data here if needed
-    }
-    
-    $mergedImagesArray = array_merge($images, $imagesInBody);
-    $dictionary[$messageId]["images"] = $mergedImagesArray;
-    $dictionary[$messageId]['zipData'] = $zips;
-
-    // echo "<hr>";
-    unlink($tempFile);
-    
-}
-// echo "counter - " . $counter;
-//file_put_contents("savedData/1.jpg", $dictionary['18b22b6b060a4628']['images'][0]);
-// echo '<pre>';
-// print_r($dictionary);
-// echo '</pre>';
-$savedDataDir = "C:\\wamp64\\www\\gmail\\savedData\\";
-
-
-foreach ($dictionary as $messageKey => $messageData) {
-    //echo "Message Key: $messageKey<br>";
-    
-
-    // Assuming $messageData['id'] contains the folder name
-// Set the default charset to UTF-8
-
-
-// Assuming $messageData['id'] contains the folder name
-$folderNameHebrew = $messageData['id'];
-
-//$folderPath = "C:\\wamp64\\www\\gmail\\savedData\\";
-//mkdir($folderPath, 0777, true);
-//$folderNameUtf8 = mb_convert_encoding("בנימין_רון", 'UTF-8', 'auto');
-$sanitizedText = preg_replace('/[^\p{L}\p{N}_-]/u', '', $folderNameHebrew);
-
-// Convert the sanitized text to a suitable encoding (e.g., UTF-8)
-$utf8Text = mb_convert_encoding($sanitizedText, 'UTF-8', 'auto');
-
-// Define the parent directory where you want to create the folder
-$parentDirectory = 'savedData';
-
-// Combine the parent directory and sanitized UTF-8 text to create the folder path
-$directoryPath = $parentDirectory . DIRECTORY_SEPARATOR . $utf8Text;
-
-//$directoryPath = "C:\\wamp64\\www\\gmail\\savedData\\{$folderNameHebrew}";
-
-if (!file_exists($directoryPath)) {
-    if (mkdir($directoryPath, 0777, true)) {
-        echo "Folder created successfully: " . $directoryPath;
-    } else {
-        echo "Failed to create folder: " . $directoryPath;
-        echo "Error: " . error_get_last()['message'];
-    }
-} 
-// echo is_dir($savedDataDir . $folderNameUtf8) . " - " . $savedDataDir . $folderNameUtf8;
-// // // Check if the folder already exists or create it
-// if (!is_dir($savedDataDir . $folderNameUtf8)) {
-//     mkdir($savedDataDir . $folderNameUtf8, 0777, true); 
-//     echo "Folder created successfully: " . $savedDataDir . $folderNameUtf8;
-// } else {
-//     echo "Folder already exists: " . $savedDataDir . $folderNameUtf8;
-// }
-    // if (!file_exists("savedData/" . $personSocialID)) {
-    //     mkdir("savedData/" . $personSocialID, 0777, true);  // The third parameter "true" allows the creation of nested directories
-    // }
-    $zip = new ZipArchive();
-    foreach ($messageData['zipData'] as $index => $zipData) {
-    $zipPath = $zipData;
-    if ($zipPath && $zip->open($zipPath, ZipArchive::CREATE) === TRUE) {
-        //echo $zip->numFiles;
-        for ($i = 0; $i < $zip->numFiles; $i++) {
-            $fileInfo = $zip->statIndex($i);
-            $fileName = $fileInfo['name'];
-            // echo "File Name: " . $fileInfo['name'] . "<br>";
-            // echo "File Size: " . $fileInfo['size'] . " bytes<br>";
-            // echo "File Modified: " . date('Y-m-d H:i:s', $fileInfo['mtime']) . "<br>";
-            echo "<br>";
-            if (!empty(pathinfo($fileName, PATHINFO_EXTENSION)) && preg_match('/\.(jpg|jpeg|png)$/i', $fileName)) {
-                // Extract the file to the specified folder
-                if ($zip->extractTo($directoryPath . "/", $fileName)) {
-                    //echo "Extracted: $fileName<br>";
+        $socialIDInSubject = shell_exec("python findSocialId.py $escaped_subject");
+        $tempFile = tempnam(sys_get_temp_dir(), 'tempfile');
+        file_put_contents($tempFile, $bodyData);
+        if (!$socialIDInSubject) {
+            $command = "python findSocialId.py \"$tempFile\"";
+            $socialIDInBody = shell_exec($command);
+            if (!$socialIDInBody) {
+                $nameInSubject = shell_exec("python findName.py $escaped_subject");
+                if (strpos($nameInSubject, "None") !== false) {
+                    $command = "python findName.py \"$tempFile\"";
+                    $nameInBody = shell_exec($command);
+                    if (strpos($nameInBody, "None") !== false) {
+                        continue;
+                    } else {
+                        $socialIdCompleted = $nameInBody;
+                    }
                 } else {
-                    echo "Failed to extract: $fileName<br>";
+                    $socialIdCompleted = $nameInSubject;
                 }
-                
+            } else {
+                $unique_socialIDInBody = removeRepetitiveNumbers($socialIDInBody);
+                $socialIdCompleted = $unique_socialIDInBody;
+            }
+        } else {
+            $unique_socialIDInSubject = removeRepetitiveNumbers($socialIDInSubject);
+            $socialIdCompleted = $unique_socialIDInSubject;
+        }
+
+        echo $finalFileName;
+        if ($socialIdCompleted) {
+            $dictionary[$messageId] = [
+                'id' => mb_convert_encoding($socialIdCompleted, 'UTF-8', 'auto'),
+                'images' => []
+            ];
+        } else {
+            continue;
+        }
+
+        // Get Attachments
+        $attachments = getAttachments($fullMessage, $service);
+        $bodyWithImages = replaceCidImages($bodyData, $attachments);
+        $images = [];
+        $zips = [];
+        $filesToDelete = [];
+        foreach ($attachments as $attachment) {
+            $filename = $attachment['filename'];
+            echo $filename;
+            $data = $attachment['data'];
+            $mimeType = $attachment['mimeType'];
+            
+            if ($mimeType == "image/jpeg" || $mimeType == "image/png") {
+                $dictionary[$messageId]['zipData'] = "";
+                $dataDecode = base64_decode($data);
+                $base64Data = base64_encode($data);
+                $dataUrl = "data:$mimeType;base64,$base64Data";
+                $images[] = $data;
+            }
+            if ($mimeType === "application/zip" || $mimeType === "application/x-zip-compressed") {
+                if ($filename !== null) {
+                    $filePath = $messageId . '_' . str_replace(' ', '', $filename) . '.zip';
+                    if ($data !== false) {
+                        $zips[] = $filePath;
+                        file_put_contents($filePath, $data);
+                        $filesToDelete[] = $filePath;
+                    } else {
+                        echo "Failed to decode base64 data.";
+                    }
+                }
+            }
+        }
+        
+        $mergedImagesArray = array_merge($images, $imagesInBody);
+        $dictionary[$messageId]["images"] = $mergedImagesArray;
+        $dictionary[$messageId]['zipData'] = $zips;
+        unlink($tempFile);
+    }
+
+    $savedDataDir = "C:\\wamp64\\www\\gmail\\savedData/";
+
+    foreach ($dictionary as $messageKey => $messageData) {
+        $folderNameHebrew = $messageData['id'];
+        $sanitizedText = preg_replace('/[^\p{L}\p{N}_-]/u', '', $folderNameHebrew);
+        $utf8Text = mb_convert_encoding($sanitizedText, 'UTF-8', 'auto');
+        $parentDirectory = 'savedData';
+        $directoryPath = $parentDirectory . DIRECTORY_SEPARATOR . $utf8Text;
+
+        if (!file_exists($directoryPath)) {
+            if (mkdir($directoryPath, 0777, true)) {
+                echo "Folder created successfully: " . $directoryPath;
+            } else {
+                echo "Failed to create folder: " . $directoryPath;
+                echo "Error: " . error_get_last()['message'];
             }
         }
 
-        $zip->close();
-        //echo "loaded successfully";
-    }
-    else{
-        echo "failed to load";
-    }
-}
-foreach ($filesToDelete as $filePath) {
-    if (file_exists($filePath)) {
-        unlink($filePath);
-        // Optionally, you can check if unlink was successful or handle any errors
-    }
-}
+        $zip = new ZipArchive();
+        foreach ($messageData['zipData'] as $index => $zipData) {
+            $zipPath = $zipData;
+            if ($zipPath && $zip->open($zipPath, ZipArchive::CREATE) === TRUE) {
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $fileInfo = $zip->statIndex($i);
+                    $fileName = $fileInfo['name'];
+                    echo "<br>";
+                    if (!empty(pathinfo($fileName, PATHINFO_EXTENSION)) && preg_match('/\.(jpg|jpeg|png)$/i', $fileName)) {
+                        if ($zip->extractTo($directoryPath . "/", $fileName)) {
+                            //echo "Extracted: $fileName<br>";
+                        } else {
+                            echo "Failed to extract: $fileName<br>";
+                        }
+                    }
+                }
+                $zip->close();
+            } else {
+                echo "failed to load";
+            }
+        }
 
-    foreach ($messageData['images'] as $index => $imageData) {
-        // If image data is in base64 format and you want to save it:
-        $filename = $directoryPath . "/image_$index.jpg";
-        file_put_contents($filename, $imageData);
-        
-        // To display the image
-        //echo "<img src='$filename' alt='Image $index for {$messageData['id']}'><br>";
+        foreach ($filesToDelete as $filePath) {
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
+        foreach ($messageData['images'] as $index => $imageData) {
+            $filename = $directoryPath . "/image_$index.jpg";
+            file_put_contents($filename, $imageData);
+        }
     }
-    
-    //echo "<hr>";  // Separator for each message
-}
-// Helper function to recursively extract the body data
-
-
 } else {
     echo 'No messages found in the inbox.';
 }
