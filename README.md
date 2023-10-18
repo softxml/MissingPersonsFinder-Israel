@@ -15,17 +15,24 @@ An ongoing armed conflict between Palestinian militant groups led by Hamas and I
 
 - **Objective**: The primary objective of this project is to assist organizations like "Needarim" (in Hebrew) or "Missing People" in their efforts to locate missing individuals and provide support to their families during these challenging times.
 
-## How It Works
+## How the Project Works
 
-1. **Gmail Integration**: The application connects to your Gmail account and iterates through your inbox.
+The Missing Persons Search Application is designed to facilitate the search for missing individuals in Israel by leveraging Gmail as a communication platform. Here's an overview of how the project operates:
 
-2. **Information Extraction**: It extracts vital information, such as social IDs or full names, from email subjects and bodies.
+1. **Red Alert Gmail Inbox**: We've set up a dedicated Gmail inbox, known as the "Red Alert Gmail Inbox," to serve as a central hub for receiving information about missing persons. Anyone can send an email to this inbox with details about a missing person.
 
-3. **Folder Creation**: The application creates local folders with names based on the extracted information.
+2. **Information Inclusion**: In the email, individuals can provide crucial information in Hebrew, such as the social ID (תעודת זהות) or the full name (שם מלא) of the missing person. Additionally, users can attach images of the missing individual or send zip files containing images for identification.
 
-4. **Image Upload**: It identifies and uploads images of the individuals to their respective folders.
+3. **Data Extraction and Structuring**: The application excels at extracting and structuring the received data. It processes the email contents to identify the social ID, full name, and any attached images. This automation ensures that the information is organized for further analysis.
 
-5. **Zip File Handling**: If there are attached zip files, the application extracts their contents and uploads them to the corresponding person's folder.
+4. **Facial Recognition AI**: The structured data, including images, is then forwarded for in-depth investigation. One of the key tools utilized in the investigation process is facial recognition AI. This advanced technology assists in verifying and identifying missing individuals, contributing to their potential recovery.
+
+5. **Further Investigation**: The collected data is invaluable for organizations and agencies involved in locating missing persons. It aids in their efforts to reunite families with their loved ones, especially during challenging times.
+
+By utilizing the Red Alert Gmail Inbox and this streamlined application, we aim to harness technology for the greater good, supporting the vital mission of finding missing persons in Israel.
+
+Feel free to reach out if you have any questions or would like to contribute to this meaningful project.
+
 
 # Getting Started
 
