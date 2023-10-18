@@ -96,6 +96,19 @@ Your `credentials.json` file should look something like this (with your own clie
 
    git clone https://github.com/softxml/MissingPersonsFinder-Israel.git
 
+## Need to Do
+
+To enhance the capabilities of this application and make it more powerful, there are some important tasks on our to-do list:
+
+### 1. Fetching Media from External Links
+
+In Gmail messages, there might be embedded links pointing to media resources located outside of Gmail. We need to implement a feature that can identify and fetch this external media. This will expand our ability to gather valuable information and organize it effectively.
+
+### 2. Continuous Improvement
+
+Our project is a work in progress, and we're continuously striving to improve its functionality, performance, and user experience. Your input, feedback, and contributions play a pivotal role in making this application more effective in achieving its mission.
+
+
 
 ## Contributions
 
