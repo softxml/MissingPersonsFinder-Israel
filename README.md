@@ -35,17 +35,45 @@ To begin using the Missing Persons Search Application and integrate it with your
 
 Before you can use this application, you'll need to set up the required credentials and permissions. Follow these steps to get started:
 
-1. **Create a Google Cloud Project and OAuth 2.0 Credentials**:
+## Setting Up Google API Credentials
 
-   To access Gmail and fetch information, you'll need to set up a Google Cloud Project and OAuth 2.0 credentials. This will allow your application to authenticate and access Gmail data.
+To use this application, you'll need to set up Google API credentials in a `credentials.json` file. Follow these steps to create and configure the `credentials.json` file:
 
-   - Go to the [Google Cloud Console](https://console.cloud.google.com/).
-   - Sign in with your Google account or create one if you don't have one.
-   - Create a new project with a descriptive name for your application.
-   - Enable the Gmail API for your project in the "APIs & Services" > "Library" section.
-   - Create OAuth 2.0 credentials in the "APIs & Services" > "Credentials" section.
-   - Configure the OAuth consent screen and specify the redirect URI for your application.
-   - Once created, note down the client ID and client secret provided. You'll use these credentials in your application.
+1. Visit the [Google Cloud Console](https://console.cloud.google.com/).
+
+2. Create a new project or select an existing one.
+
+3. Navigate to the **APIs & Services > Credentials** page.
+
+4. Click on the **Create Credentials** dropdown and select **OAuth client ID**.
+
+5. Choose "Web application" as the application type.
+
+6. In the "Authorized JavaScript origins" section, add `http://localhost:8080` as an authorized origin if it's not already there.
+
+7. In the "Authorized redirect URIs" section, add `http://localhost:8080/gmail/gmail.php` as an authorized redirect URI.
+
+8. Click the **Create** button.
+
+9. After creating the OAuth client ID, click the download button (down arrow) to download the JSON file containing your credentials. This file should be named `credentials.json`.
+
+10. Place the `credentials.json` file in the root directory of your project.
+
+Your `credentials.json` file should look something like this (with your own client ID and client secret):
+
+```json
+{
+  "web": {
+    "client_id": "YOUR_CLIENT_ID_HERE",
+    "project_id": "extractmediafromgmail",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "YOUR_CLIENT_SECRET_HERE"
+  }
+}
+
+
 
 2. **Clone This Repository**:
 
