@@ -66,15 +66,13 @@ To use this application, you'll need to set up Google API credentials in a `cred
 
 5. Choose "Web application" as the application type.
 
-6. In the "Authorized JavaScript origins" section, add `http://localhost:8080` as an authorized origin if it's not already there.
+6. In the "Authorized redirect URIs" section, add `http://localhost:8080/gmail/gmail.php` as an authorized redirect URI.
 
-7. In the "Authorized redirect URIs" section, add `http://localhost:8080/gmail/gmail.php` as an authorized redirect URI.
+7. Click the **Create** button.
 
-8. Click the **Create** button.
+8. After creating the OAuth client ID, click the download button (down arrow) to download the JSON file containing your credentials. This file should be named `credentials.json`.
 
-9. After creating the OAuth client ID, click the download button (down arrow) to download the JSON file containing your credentials. This file should be named `credentials.json`.
-
-10. Place the `credentials.json` file in the root directory of your project.
+9. Place the `credentials.json` file in the root directory of your project.
 
 Your `credentials.json` file should look something like this (with your own client ID and client secret):
 
@@ -97,7 +95,7 @@ Your `credentials.json` file should look something like this (with your own clie
    Clone this GitHub repository to your local machine:
 
    ```bash
-   git clone https://github.com/yourusername/your-repo-name.git
+   git clone https://github.com/softxml/MissingPersonsFinder-Israel.git
 
 
 ## Contributions
