@@ -31,7 +31,7 @@ The Missing Persons Search Application is designed to facilitate the search for 
 
 By utilizing the Red Alert Gmail Inbox and this streamlined application, we aim to harness technology for the greater good, supporting the vital mission of finding missing persons in Israel.
 
-Feel free to reach out if you have any questions or would like to contribute to this meaningful project.
+**Feel free to reach out if you have any questions or would like to contribute to this meaningful project.**
 
 
 # Getting Started
