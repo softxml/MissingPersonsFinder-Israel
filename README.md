@@ -90,6 +90,27 @@ Your `credentials.json` file should look something like this (with your own clie
   }
 }
 ```
+
+## Using a Virtual Environment (Recommended)
+
+This project utilizes a virtual environment to isolate its Python dependencies from the global Python environment. Using a virtual environment ensures that your project dependencies are consistent and do not interfere with other Python projects on your system.
+
+### Prerequisites
+
+Before setting up the virtual environment, ensure that you have Python and `pip` (Python package manager) installed on your system.
+
+### Setting Up the Virtual Environment
+
+Follow these steps to create and activate the project's virtual environment:
+
+1. Open a terminal or command prompt in your project's root directory.
+
+2. Create a virtual environment by running the following command (assuming you have Python 3 installed):
+
+   ```bash
+   python -m venv venv
+
+
 10. Installing Composer Dependencies
 
 This project relies on Composer to manage its PHP dependencies. Composer makes it easy to fetch and install the required packages, ensuring that your project runs smoothly.
@@ -100,7 +121,8 @@ Open your command-line interface (CLI) and navigate to the root directory of thi
 **Run Composer Install**:
 Execute the following command to fetch and install all Composer dependencies:
 
-**composer install**
+```bash
+composer install
 
 This command will read the composer.json file, resolve dependencies, and download the required packages into the vendor directory within your project.
 
