@@ -35,7 +35,7 @@ The Missing Persons Search Application is designed to facilitate the search for 
 
 3. **Data Extraction and Structuring**: The application excels at extracting and structuring the received data. It processes the email contents to identify the social ID, full name, and any attached images. This automation ensures that the information is organized for further analysis.
 
-4. **Facial Recognition AI**: The structured data, including images, is then forwarded for in-depth investigation. One of the key tools utilized in the investigation process is facial recognition AI. This advanced technology assists in verifying and identifying missing individuals, contributing to their potential recovery.
+4. **Facial Recognition AI**: The structured data, including images, is then forwarded for in-depth investigation. One of the key tools utilized in the investigation process is facial recognition AI. This advanced technology assists in verifying and identifying missing individuals, contributing to their potential finding.
 
 5. **Further Investigation**: The collected data is invaluable for organizations and agencies involved in locating missing persons. It aids in their efforts to reunite families with their loved ones, especially during challenging times.
 
