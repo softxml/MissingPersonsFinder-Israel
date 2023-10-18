@@ -106,14 +106,13 @@ Follow these steps to create and activate the project's virtual environment:
 1. Open a terminal or command prompt in your project's root directory.
 
 2. Create a virtual environment by running the following command (assuming you have Python 3 installed):
-
    ```bash
    python -m venv venv
    ```
 
 3. Activate the virtual environment:
    ```bash
-   .env\Scriptsctivate
+   C:\wamp64\www\gmail\venv\Scripts\activate
    ```
 
 
