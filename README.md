@@ -13,7 +13,7 @@ An ongoing armed conflict between Palestinian militant groups led by Hamas and I
 
 - **Functionality**: The application can extract essential information, such as social IDs or full names, from Gmail messages. It then creates local folders named after these parameters and uploads images of the individuals to their respective folders. Additionally, it can identify attached zip files, extract their contents, and upload them to the corresponding person's folder.
 
-- **Objective**: The primary objective of this project is to assist organizations like "Needarim" (in Hebrew) or "Missing People" in their efforts to locate missing individuals and provide support to their families during these challenging times.
+- **Objective**: The primary objective of this project is to assist organizations like "Needarim" (in Hebrew) or "Missing People" https://needarim.org.il/ in their efforts to locate missing individuals and provide support to their families during these challenging times.
 
 ## How the Project Works
 
