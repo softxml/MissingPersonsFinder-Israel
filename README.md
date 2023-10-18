@@ -128,6 +128,7 @@ Execute the following command to fetch and install all Composer dependencies:
 
 ```bash
 composer install
+```
 
 This command will read the composer.json file, resolve dependencies, and download the required packages into the vendor directory within your project.
 
