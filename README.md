@@ -96,6 +96,16 @@ Your `credentials.json` file should look something like this (with your own clie
 
    git clone https://github.com/softxml/MissingPersonsFinder-Israel.git
 
+
+**Project Folder Structure**
+------------------------
+
+- Root
+  - saveData
+    - socialid or fullName
+      - all images of missing person
+
+
 ## Need to Do
 
 To enhance the capabilities of this application and make it more powerful, there are some important tasks on our to-do list:
