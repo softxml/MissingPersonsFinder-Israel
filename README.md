@@ -164,7 +164,7 @@ Once installed, configure your project to run on the WampServer environment for 
 
 ## Need to Do
 
-To enhance the capabilities of this application and make it more powerful, there are some important tasks on our to-do list:
+To enhance the capabilities of this application, there are some important tasks on our to-do list:
 
 ### 1. Fetching Media from External Links
 
@@ -172,7 +172,7 @@ In Gmail messages, there might be embedded links pointing to media resources loc
 
 ### 2. Continuous Improvement
 
-Our project is a work in progress, and we're continuously striving to improve its functionality, performance, and user experience. Your input, feedback, and contributions play a pivotal role in making this application more effective in achieving its mission.
+This project is a work in progress, and we're continuously striving to improve its functionality, performance, and user experience. Your input, feedback, and contributions play a pivotal role in making this application more effective in achieving its mission.
 
 
 
