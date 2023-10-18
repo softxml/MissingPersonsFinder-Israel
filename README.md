@@ -158,7 +158,7 @@ Once installed, configure your project to run on the WampServer environment for 
   - findSocialId.py
   - composer.json
   - credentials.json
-  - saveData
+  - savedData
     - socialid or fullName
       - all images of missing person
 
