@@ -27,15 +27,33 @@ An ongoing armed conflict between Palestinian militant groups led by Hamas and I
 
 5. **Zip File Handling**: If there are attached zip files, the application extracts their contents and uploads them to the corresponding person's folder.
 
-## Getting Started
+# Getting Started
 
-To use this application, follow these steps:
+To begin using the Missing Persons Search Application and integrate it with your Gmail account, follow these steps:
 
-1. Clone the repository to your local machine.
+### Prerequisites
 
-2. Configure your Gmail credentials and API access by following the setup instructions in the project's documentation.
+Before you can use this application, you'll need to set up the required credentials and permissions. Follow these steps to get started:
 
-3. Run the application to start fetching and organizing information from your Gmail inbox.
+1. **Create a Google Cloud Project and OAuth 2.0 Credentials**:
+
+   To access Gmail and fetch information, you'll need to set up a Google Cloud Project and OAuth 2.0 credentials. This will allow your application to authenticate and access Gmail data.
+
+   - Go to the [Google Cloud Console](https://console.cloud.google.com/).
+   - Sign in with your Google account or create one if you don't have one.
+   - Create a new project with a descriptive name for your application.
+   - Enable the Gmail API for your project in the "APIs & Services" > "Library" section.
+   - Create OAuth 2.0 credentials in the "APIs & Services" > "Credentials" section.
+   - Configure the OAuth consent screen and specify the redirect URI for your application.
+   - Once created, note down the client ID and client secret provided. You'll use these credentials in your application.
+
+2. **Clone This Repository**:
+
+   Clone this GitHub repository to your local machine:
+
+   ```bash
+   git clone https://github.com/yourusername/your-repo-name.git
+
 
 ## Contributions
 
