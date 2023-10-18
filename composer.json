@@ -1,0 +1,22 @@
+{
+    "name": "greg/tiktok",
+    "autoload": {
+        "psr-4": {
+            "Greg\\Tiktok\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gregory Movsesyan",
+            "email": "softxmlisr@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.8",
+        "google/apiclient": "^2.15",
+        "google/apiclient-services": "^0.319.0",
+        "pear/text_languagedetect": "^1.0",
+        "patrickschur/language-detection": "^5.3"
+        
+    }
+}
