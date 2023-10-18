@@ -94,7 +94,6 @@ Your `credentials.json` file should look something like this (with your own clie
 
    Clone this GitHub repository to your local machine:
 
-   ```bash
    git clone https://github.com/softxml/MissingPersonsFinder-Israel.git
 
 
