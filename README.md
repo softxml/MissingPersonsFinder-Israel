@@ -161,6 +161,9 @@ Once installed, configure your project to run on the WampServer environment for 
   - savedData
     - socialid or fullName
       - all images of missing person
+  - vendor
+  - venv
+  
 
 
 ## Need to Do
