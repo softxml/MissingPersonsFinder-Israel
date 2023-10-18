@@ -5,10 +5,6 @@
 
 The Missing Persons Search Application is a volunteer project aimed at helping locate and identify missing individuals in Israel, especially in light of the ongoing armed conflict. This application is designed to fetch vital information, such as social IDs or full names, from Gmail messages and organize it to aid in search efforts.
 
-## Background
-
-An ongoing armed conflict between Palestinian militant groups led by Hamas and Israel and its defense forces began on 7 October 2023, with a coordinated surprise offensive on Israel. The terrorist attack began in the morning with a barrage of at least 6,000 rockets launched from the Hamas-controlled Gaza Strip against Israel, resulting in casualties and hostages.
-
 ## How the Project Started
 
 The inception of this project was born out of a critical need during challenging times. As a volunteer programmer, I was approached to develop this application urgently. The primary objective was to create a tool that could swiftly and effectively assist in locating missing individuals, especially during ongoing crises.
