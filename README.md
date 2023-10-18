@@ -87,7 +87,7 @@ Your `credentials.json` file should look something like this (with your own clie
     "client_secret": "YOUR_CLIENT_SECRET_HERE"
   }
 }
-
+```
 
 
 2. **Clone This Repository**:
