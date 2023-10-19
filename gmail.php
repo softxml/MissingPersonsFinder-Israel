@@ -1,4 +1,6 @@
+
 <?php
+ob_clean();
 header('Content-Type: text/html; charset=UTF-8');
 mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
@@ -12,6 +14,13 @@ require 'simple_html_dom.php';
 session_start();
 $dictionary = [];
 $imagesInBody = [];
+$totalMessages2Scann  = 1;
+$succesfullyExtractedMessages  = 0;
+$existingExtractedMessages = 0;
+$extractedImages = 0;
+$extractedZipFiles = 0;
+$extractedZips = 0;
+$start_time = microtime(true);
 
 $client = new Google_Client();
 $client->setAuthConfig('credentials.json');
@@ -197,13 +206,14 @@ function findHtmlContent($payload) {
 
 $params = [
     'labelIds' => ['INBOX'],
-    'maxResults' => 7
+    'maxResults' => $totalMessages2Scann 
 ];
 $results = $service->users_messages->listUsersMessages('me', $params);
 $messages = $results->getMessages();
 
 if (!empty($messages)) {
-    $counter = 0;
+    $counterPersonsFound = 0;
+    
     foreach ($messages as $message) {
         $messageId = $message->getId();
         $fullMessage = $service->users_messages->get('me', $messageId);
@@ -252,8 +262,9 @@ if (!empty($messages)) {
             $socialIdCompleted = $unique_socialIDInSubject;
         }
 
-        echo $finalFileName;
+        //echo $finalFileName;
         if ($socialIdCompleted) {
+            $counterPersonsFound++;
             $dictionary[$messageId] = [
                 'id' => mb_convert_encoding($socialIdCompleted, 'UTF-8', 'auto'),
                 'images' => []
@@ -270,7 +281,7 @@ if (!empty($messages)) {
         $filesToDelete = [];
         foreach ($attachments as $attachment) {
             $filename = $attachment['filename'];
-            echo $filename;
+            // $filename;
             $data = $attachment['data'];
             $mimeType = $attachment['mimeType'];
             
@@ -312,23 +323,28 @@ if (!empty($messages)) {
 
         if (!file_exists($directoryPath)) {
             if (mkdir($directoryPath, 0777, true)) {
-                echo "Folder created successfully: " . $directoryPath;
+                $succesfullyExtractedMessages++;
+                //echo "Folder created successfully: " . $directoryPath;
             } else {
                 echo "Failed to create folder: " . $directoryPath;
                 echo "Error: " . error_get_last()['message'];
             }
+        }
+        else{
+            $existingExtractedMessages++;
         }
 
         $zip = new ZipArchive();
         foreach ($messageData['zipData'] as $index => $zipData) {
             $zipPath = $zipData;
             if ($zipPath && $zip->open($zipPath, ZipArchive::CREATE) === TRUE) {
+                $extractedZips++;
                 for ($i = 0; $i < $zip->numFiles; $i++) {
                     $fileInfo = $zip->statIndex($i);
                     $fileName = $fileInfo['name'];
-                    echo "<br>";
                     if (!empty(pathinfo($fileName, PATHINFO_EXTENSION)) && preg_match('/\.(jpg|jpeg|png)$/i', $fileName)) {
                         if ($zip->extractTo($directoryPath . "/", $fileName)) {
+                            $extractedZipFiles++;
                             //echo "Extracted: $fileName<br>";
                         } else {
                             echo "Failed to extract: $fileName<br>";
@@ -350,8 +366,22 @@ if (!empty($messages)) {
         foreach ($messageData['images'] as $index => $imageData) {
             $filename = $directoryPath . "/image_$index.jpg";
             file_put_contents($filename, $imageData);
+            $extractedImages += count($messageData['images']);
         }
     }
+    $elapsed_time = microtime(true) - $start_time;
+    
+    $formatted_elapsed_time = gmdate("H:i:s", $elapsed_time);
+
+    // Display the statistics
+    echo "<h2>Statistics</h2>";
+    echo "Elapsed Time: $formatted_elapsed_time <br>";
+    echo "Total Gmail Messages Processed: $totalMessages2Scann <br>";
+    //$newPersonsNumber =($existingExtractedMessages==$totalMessages2Scann)?"0":;
+    echo "New Missing Persons Extracted :". ($totalMessages2Scann-$existingExtractedMessages) ."<br>";
+    echo "Already Existing Missing Persons: $existingExtractedMessages<br>";
+    echo "Total Images Extracted from " . $extractedZips . " Zip File/s :" . $extractedZipFiles . "<br>";
+    echo "Total Images Extracted from Gmail: $extractedImages<br>";
 } else {
     echo 'No messages found in the inbox.';
 }
