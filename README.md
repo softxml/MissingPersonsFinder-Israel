@@ -106,7 +106,7 @@ Follow these steps to create and activate the project's virtual environment:
 1. Open a terminal or command prompt in your project's root directory.
 
 2. Create a virtual environment by running the following command (assuming you have Python 3 installed):
-   ```bash
+   ```python
    python -m venv venv
    ```
 
@@ -126,7 +126,7 @@ Open your command-line interface (CLI) and navigate to the root directory of thi
 **Run Composer Install**:
 Execute the following command to fetch and install all Composer dependencies:
 
-```bash
+```php
 composer install
 ```
 
